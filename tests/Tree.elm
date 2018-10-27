@@ -59,6 +59,15 @@ tree1 =
 """
 
 
+tree2 =
+    """Node
+    Node
+      Leaf 1
+      Leaf 2
+    Leaf 3
+"""
+
+
 suite : Test
 suite =
     describe "The Parser.Maybe module"
@@ -68,6 +77,10 @@ suite =
                 \() ->
                     P.run tree tree1
                         |> Expect.equal (Ok (Node [ Leaf 3, Leaf 4 ]))
+            , test "tree" <|
+                \() ->
+                    P.run tree tree2
+                        |> Expect.equal (Ok (Node [ Node [ Leaf 1, Leaf 2 ], Leaf 3 ]))
 
             -- , test "maybe not an int" <|
             --     \() ->
