@@ -1,5 +1,6 @@
 {
     "type": "package",
+    "name": "eelcoh/parser-indent",
     "source-directories": [
         "src"
     ],
