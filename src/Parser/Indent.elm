@@ -1,8 +1,19 @@
 module Parser.Indent exposing (list)
 
+{-| This library provides a parser for indented text.
+
+
+# Definition
+
+@docs list
+
+-}
+
 import Parser as P exposing ((|.), (|=), Parser)
 
 
+{-| Parse a list with the same indentation, for a given parser.
+-}
 list : Parser a -> Parser (List a)
 list parser =
     let
