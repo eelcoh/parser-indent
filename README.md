@@ -21,23 +21,23 @@ type Item
 
 -- Parsers
 item =
-    P.succeed Item
-        |. P.keyword "Item"
-        |. P.spaces
-        |= P.int
+    succeed Item
+        |. keyword "Item"
+        |. spaces
+        |= int
 
 list =
-    P.succeed identity
-        |. P.keyword "List"
-        |. U.spaces
-        |. P.symbol ":"
-        |. U.spaces
+    succeed identity
+        |. keyword "List"
+        |. spaces
+        |. symbol ":"
+        |. spaces
         |. eol
         |= Indent.list item
 
 eol : Parser ()
 eol =
-    P.chompUntilEndOr "\n"
+    chompUntilEndOr "\n"
 
 ```
 
@@ -63,25 +63,25 @@ type Tree
 
 -- Parsers
 tree =
-    P.oneOf
+    oneOf
         [ node
         , leaf
         ]
 
 leaf =
-    P.succeed Leaf
-        |. P.keyword "Leaf"
-        |. P.spaces
-        |= P.int
+    succeed Leaf
+        |. keyword "Leaf"
+        |. spaces
+        |= int
 
 node =
-    P.succeed Node
-        |. P.keyword "Node"
-        |. U.spaces
+    succeed Node
+        |. keyword "Node"
+        |. spaces
         |. eol
-        |= Indent.list (P.lazy (\_ -> tree))
+        |= Indent.list (lazy (\_ -> tree))
 
 eol : Parser ()
 eol =
-    P.chompUntilEndOr "\n"
+    chompUntilEndOr "\n"
 ```
