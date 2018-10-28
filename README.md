@@ -1,7 +1,11 @@
 A parser for parsing indented lists.
 
+This was inspired by the [YAML library](https://github.com/terezka/yaml) by Tereza Sokol. I recommend watching her [Elm-Conf talk on parsers](https://www.youtube.com/watch?v=M9ulswr1z0E).
+
+
 ## Example - parsing a list:
 
+The following document contains a list with indented items:
 ```
 List:
   Item 1
@@ -10,15 +14,16 @@ List:
   Item 4
   Item 5
 ```
-
-With the following parsers:
+It should be parsed into the following type:
 
 ```elm
-
 -- Type
 type Item
     = Item Int
+```
 
+With the following parsers:
+```elm
 -- Parsers
 item =
     succeed Item
@@ -35,32 +40,36 @@ list =
         |. eol
         |= Indent.list item
 
-eol : Parser ()
+spaces =
+  chompWhile (\c -> c == ' ')
+
 eol =
     chompUntilEndOr "\n"
-
 ```
 
-## Example - parsing a tree with lists:
+## Example - parsing a tree with recursive lists:
 
+Read this document:
 ```
 Node
   Node
     Leaf 1
     Leaf 2
-  Leaf 3
+    Leaf 3
+  Leaf 4
 ```
 
-With the following parsers:
-
-
+Into a tree type:
 ```elm
-
 -- Type
 type Tree
     = Node (List Tree)
     | Leaf Int
 
+```
+
+With the following parsers:
+```elm
 -- Parsers
 tree =
     oneOf
@@ -81,7 +90,9 @@ node =
         |. eol
         |= Indent.list (lazy (\_ -> tree))
 
-eol : Parser ()
+spaces =
+  chompWhile (\c -> c == ' ')
+
 eol =
     chompUntilEndOr "\n"
 ```

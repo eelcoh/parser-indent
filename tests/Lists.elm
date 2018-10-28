@@ -4,7 +4,6 @@ import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer, int, list, string)
 import Parser as P exposing ((|.), (|=), Parser, chompUntilEndOr, int, keyword, run, spaces, succeed, symbol)
 import Parser.Indent as Indent
-import Parser.Utils as U
 import Test exposing (..)
 
 
@@ -23,18 +22,22 @@ type Item
 item =
     succeed Item
         |. keyword "Item"
-        |. U.spaces
+        |. spaces
         |= int
 
 
 list =
     succeed identity
         |. keyword "List"
-        |. U.spaces
+        |. spaces
         |. symbol ":"
-        |. U.spaces
+        |. spaces
         |. eol
         |= Indent.list item
+
+
+spaces =
+    P.chompWhile (\c -> c == ' ')
 
 
 eol : Parser ()

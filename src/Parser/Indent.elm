@@ -1,7 +1,6 @@
 module Parser.Indent exposing (list)
 
 import Parser as P exposing ((|.), (|=), Parser)
-import Parser.Utils as U
 
 
 type alias NextParser a =
@@ -29,12 +28,12 @@ list parser =
     in
     P.oneOf
         [ P.succeed (\a b -> ( a, b ))
-            |. U.whitespace
+            |. P.spaces
             |= P.getIndent
             |= P.getCol
             |> P.andThen list_
         , P.succeed []
-            |. U.spaces
+            |. P.chompWhile (\c -> c == ' ')
             |. P.end
         ]
 
@@ -83,6 +82,17 @@ indented next =
     in
     P.succeed (\a b -> ( a, b ))
         |= P.getIndent
-        |. U.whitespace
+        |. P.spaces
         |= P.getCol
         |> P.andThen proceed
+
+
+
+-- Utils
+
+
+spaces : Parser ()
+spaces =
+    -- Parser's implementation of spaces also takes newlines and carriage returns.
+    -- Which is fine, but not if all you want it to do is chomp actual spaces.
+    P.chompWhile (\c -> c == ' ')
