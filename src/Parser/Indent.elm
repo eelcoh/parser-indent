@@ -3,14 +3,6 @@ module Parser.Indent exposing (list)
 import Parser as P exposing ((|.), (|=), Parser)
 
 
-type alias NextParser a =
-    { smaller : P.Parser a
-    , exactly : P.Parser a
-    , larger : P.Parser a
-    , ending : P.Parser a
-    }
-
-
 list : Parser a -> Parser (List a)
 list parser =
     let
@@ -61,6 +53,14 @@ step parser values =
         , ending =
             P.succeed finish
         }
+
+
+type alias NextParser a =
+    { smaller : P.Parser a
+    , exactly : P.Parser a
+    , larger : P.Parser a
+    , ending : P.Parser a
+    }
 
 
 indented : NextParser a -> P.Parser a

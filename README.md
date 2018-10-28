@@ -1,6 +1,6 @@
 A parser for parsing indented lists.
 
-This was inspired by the [YAML library](https://github.com/terezka/yaml) by Tereza Sokol. I recommend watching her [Elm-Conf talk on parsers](https://www.youtube.com/watch?v=M9ulswr1z0E).
+This was inspired by the [YAML library](https://github.com/terezka/yaml) by [Tereza Sokol](https://twitter.com/terezk_a). I recommend watching her [Elm-Conf talk on parsers](https://www.youtube.com/watch?v=M9ulswr1z0E).
 
 
 ## Example - parsing a list:
